@@ -20,18 +20,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.udacity.asteroidradar.data.network.AsteroidsApisService
 import com.udacity.asteroidradar.data.network.PictureOfDayApiService
+import com.udacity.asteroidradar.data.repository.AsteroidRepository
 
 /**
  * Simple ViewModel factory that provides the MarsProperty and context to the ViewModel.
  */
 class MainViewModelFactory(
-    private val asteroidsApisService: AsteroidsApisService,
+    private val asteroidRepository: AsteroidRepository,
     private val pictureOfDayApiService: PictureOfDayApiService
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            return MainViewModel(asteroidsApisService, pictureOfDayApiService) as T
+            return MainViewModel(asteroidRepository, pictureOfDayApiService) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
