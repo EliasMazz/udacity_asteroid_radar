@@ -5,11 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.udacity.asteroidradar.network.Asteroid
-import com.udacity.asteroidradar.network.AsteroidsApisService
-import com.udacity.asteroidradar.network.PictureOfDay
-import com.udacity.asteroidradar.network.PictureOfDayApiService
-import com.udacity.asteroidradar.network.parseAsteroidsJsonResult
+import com.udacity.asteroidradar.data.network.Asteroid
+import com.udacity.asteroidradar.data.network.AsteroidsApisService
+import com.udacity.asteroidradar.data.network.PictureOfDay
+import com.udacity.asteroidradar.data.network.PictureOfDayApiService
+import com.udacity.asteroidradar.data.network.parseAsteroidsJsonResult
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.lang.Exception

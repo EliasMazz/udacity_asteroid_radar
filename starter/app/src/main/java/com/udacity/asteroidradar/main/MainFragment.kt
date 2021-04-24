@@ -6,15 +6,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.MainActivity
-import com.udacity.asteroidradar.MyApplication
-import com.udacity.asteroidradar.network.Asteroid
+import com.udacity.asteroidradar.data.network.Asteroid
 import com.udacity.asteroidradar.R
-import com.udacity.asteroidradar.common.dependencyinjection.CompositionRoot
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
-import com.udacity.asteroidradar.network.PictureOfDay
-import java.lang.reflect.Array.get
 
 class MainFragment : Fragment() {
 

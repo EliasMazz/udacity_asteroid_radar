@@ -16,11 +16,10 @@
 
 package com.udacity.asteroidradar.main
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.udacity.asteroidradar.network.AsteroidsApisService
-import com.udacity.asteroidradar.network.PictureOfDayApiService
+import com.udacity.asteroidradar.data.network.AsteroidsApisService
+import com.udacity.asteroidradar.data.network.PictureOfDayApiService
 
 /**
  * Simple ViewModel factory that provides the MarsProperty and context to the ViewModel.

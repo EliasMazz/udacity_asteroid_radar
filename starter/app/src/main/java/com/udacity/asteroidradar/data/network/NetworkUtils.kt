@@ -1,4 +1,4 @@
-package com.udacity.asteroidradar.network
+package com.udacity.asteroidradar.data.network
 
 import com.udacity.asteroidradar.common.Constants
 import org.json.JSONObject
