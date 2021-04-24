@@ -1,37 +1,37 @@
 package com.udacity.asteroidradar.main
 
-import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mindorks.bootcamp.instagram.utils.log.Logger
 import com.udacity.asteroidradar.data.network.Asteroid
-import com.udacity.asteroidradar.data.network.AsteroidsApisService
 import com.udacity.asteroidradar.data.network.PictureOfDay
 import com.udacity.asteroidradar.data.network.PictureOfDayApiService
-import com.udacity.asteroidradar.data.network.parseAsteroidsJsonResult
+import com.udacity.asteroidradar.data.network.exception.NoNetworkException
+import com.udacity.asteroidradar.data.repository.AsteroidRepository
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 import java.lang.Exception
-import java.util.*
 
 class MainViewModel(
-    private val asteroidsApisService: AsteroidsApisService,
+    private val asteroidRepository: AsteroidRepository,
     private val pictureOfDayApiService: PictureOfDayApiService
 ) : ViewModel() {
 
     private val logTag = MainViewModel::class.java.toString()
-    private val _listAsteroid = MutableLiveData<List<Asteroid>>()
-    val listAsteroid: LiveData<List<Asteroid>>
-        get() = _listAsteroid
+    val listAsteroid = asteroidRepository.asteroidList
 
-    private val _pictureOfDay = MutableLiveData<PictureOfDay>()
+    val refreshAsteroidResult: LiveData<AsteroidRepository.Result>
+        get() = _refreshResult
+    private val _refreshResult = MutableLiveData<AsteroidRepository.Result>()
+
     val pictureOfDay: LiveData<PictureOfDay>
         get() = _pictureOfDay
+    private val _pictureOfDay = MutableLiveData<PictureOfDay>()
 
     init {
-        getAsteroidsProperties()
+        refreshAsteroids()
         getPictureOfDay()
     }
 
@@ -45,23 +45,9 @@ class MainViewModel(
         }
     }
 
-    private fun getAsteroidsProperties() {
+    private fun refreshAsteroids() {
         viewModelScope.launch {
-
-            try {
-                _listAsteroid.value = parseAsteroidsJsonResult(
-                    JSONObject(
-                        asteroidsApisService.getProperties(
-                            AsteroidFormatRequest.getFormattedDate(Calendar.getInstance()),
-                            AsteroidFormatRequest.getFormattedDate(Calendar.getInstance().apply {
-                                add(Calendar.DATE, 7)
-                            })
-                        )
-                    )
-                ).toList()
-            } catch (e: Exception) {
-                Logger.e(logTag, e.toString())
-            }
+            _refreshResult.value = asteroidRepository.refreshAsteroidList()
         }
     }
 
