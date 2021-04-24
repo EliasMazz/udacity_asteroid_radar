@@ -3,14 +3,17 @@ package com.udacity.asteroidradar.common.dependencyinjection
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
+import androidx.room.Room
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.MyApplication
 import com.udacity.asteroidradar.common.Constants
+import com.udacity.asteroidradar.data.db.AsteroidRadarDataBase
 import com.udacity.asteroidradar.data.network.PictureOfDayApiService
 import com.udacity.asteroidradar.data.network.AsteroidsApisService
 import com.udacity.asteroidradar.data.network.interceptor.RequestInterceptor
+import com.udacity.asteroidradar.data.repository.AsteroidRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -56,13 +59,30 @@ class CompositionRoot(application: Application) {
             .build()
     }
 
-    val asteroidService: AsteroidsApisService by lazy {
+    private val asteroidService: AsteroidsApisService by lazy {
         retrofit.create(AsteroidsApisService::class.java)
     }
+
 
     val pictureOfDayService: PictureOfDayApiService by lazy {
         retrofit.create(PictureOfDayApiService::class.java)
     }
+
+    private val database by lazy {
+        Room.databaseBuilder(
+            application,
+            AsteroidRadarDataBase::class.java,
+            "asteroid_radar_database"
+        ).build()
+    }
+
+     val asteroidRepository: AsteroidRepository by lazy {
+        AsteroidRepository(
+            database.asteroidDao(),
+            asteroidService
+        )
+    }
+
 }
 
 
