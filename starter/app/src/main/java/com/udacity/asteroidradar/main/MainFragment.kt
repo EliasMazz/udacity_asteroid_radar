@@ -2,6 +2,7 @@ package com.udacity.asteroidradar.main
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -9,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.udacity.asteroidradar.MainActivity
 import com.udacity.asteroidradar.data.network.Asteroid
 import com.udacity.asteroidradar.R
+import com.udacity.asteroidradar.data.repository.AsteroidRepository
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
@@ -17,7 +19,7 @@ class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by lazy {
         val viewModelFactory = MainViewModelFactory(
-            compositionRoot.asteroidService,
+            compositionRoot.asteroidRepository,
             compositionRoot.pictureOfDayService
         )
 
@@ -51,6 +53,13 @@ class MainFragment : Fragment() {
             }
         })
 
+        viewModel.refreshAsteroidResult.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                AsteroidRepository.Result.Success -> Toast.makeText(requireContext(), "Asteroids was refreshed sucessfuly", Toast.LENGTH_SHORT).show()
+                AsteroidRepository.Result.GeneralError -> Toast.makeText(requireContext(), "Error while trying to refresh asteroids", Toast.LENGTH_SHORT).show()
+                AsteroidRepository.Result.NoInternet -> Toast.makeText(requireContext(), "Error while trying to refresh, no internet connection", Toast.LENGTH_SHORT).show()
+            }
+        })
 
         setHasOptionsMenu(true)
 
