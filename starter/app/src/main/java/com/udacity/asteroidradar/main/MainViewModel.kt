@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mindorks.bootcamp.instagram.utils.log.Logger
 import com.udacity.asteroidradar.data.network.Asteroid
 import com.udacity.asteroidradar.data.network.AsteroidsApisService
 import com.udacity.asteroidradar.data.network.PictureOfDay
@@ -20,6 +21,7 @@ class MainViewModel(
     private val pictureOfDayApiService: PictureOfDayApiService
 ) : ViewModel() {
 
+    private val logTag = MainViewModel::class.java.toString()
     private val _listAsteroid = MutableLiveData<List<Asteroid>>()
     val listAsteroid: LiveData<List<Asteroid>>
         get() = _listAsteroid
@@ -38,7 +40,7 @@ class MainViewModel(
             try {
                 _pictureOfDay.value = pictureOfDayApiService.getPictureOfDay()
             } catch (e: Exception) {
-                Log.e("ERROR fetching getPictureOfDay ", "" + e)
+                Logger.e(logTag, e.toString())
             }
         }
     }
@@ -58,7 +60,7 @@ class MainViewModel(
                     )
                 ).toList()
             } catch (e: Exception) {
-                Log.e("ERROR fetching getAsteroidsProperties", "" + e)
+                Logger.e(logTag, e.toString())
             }
         }
     }
