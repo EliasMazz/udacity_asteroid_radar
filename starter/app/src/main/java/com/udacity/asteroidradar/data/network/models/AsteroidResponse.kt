@@ -1,9 +1,9 @@
-package com.udacity.asteroidradar.data.network
+package com.udacity.asteroidradar.data.network.models
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
-data class Asteroid(
+data class AsteroidResponse(
     val id: Long,
     val codename: String,
     val closeApproachDate: String,

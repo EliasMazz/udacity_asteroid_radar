@@ -1,6 +1,7 @@
-package com.udacity.asteroidradar.data.network
+package com.udacity.asteroidradar.data.network.service
 
 import com.udacity.asteroidradar.common.Constants
+import com.udacity.asteroidradar.data.network.models.PictureOfDay
 import retrofit2.http.GET
 
 interface PictureOfDayApiService {

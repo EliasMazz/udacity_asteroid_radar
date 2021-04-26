@@ -11,8 +11,8 @@ import com.udacity.asteroidradar.MainActivity
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 import com.udacity.asteroidradar.main.model.AsteroidViewData
-import com.udacity.asteroidradar.main.MainViewModel
-import com.udacity.asteroidradar.main.MainViewModelFactory
+import com.udacity.asteroidradar.main.viewmodel.MainViewModel
+import com.udacity.asteroidradar.main.viewmodel.MainViewModelFactory
 import com.udacity.asteroidradar.main.repository.AsteroidRepository
 
 class MainFragment : Fragment() {

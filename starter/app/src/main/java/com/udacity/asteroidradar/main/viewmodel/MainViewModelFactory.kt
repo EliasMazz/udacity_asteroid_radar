@@ -14,11 +14,11 @@
  *  limitations under the License.
  */
 
-package com.udacity.asteroidradar.main
+package com.udacity.asteroidradar.main.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.udacity.asteroidradar.data.network.PictureOfDayApiService
+import com.udacity.asteroidradar.data.network.service.PictureOfDayApiService
 import com.udacity.asteroidradar.main.repository.AsteroidRepository
 
 /**

@@ -3,7 +3,7 @@ package com.udacity.asteroidradar.data.db.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.udacity.asteroidradar.data.network.Asteroid
+import com.udacity.asteroidradar.data.network.models.AsteroidResponse
 import com.udacity.asteroidradar.main.model.AsteroidViewData
 
 @Entity
@@ -25,7 +25,7 @@ data class AsteroidEntity(
     val isPotentiallyHazardous: Boolean
 )
 
-fun List<Asteroid>.asDatabaseModel(): Array<AsteroidEntity> {
+fun List<AsteroidResponse>.asDatabaseModel(): Array<AsteroidEntity> {
     return map {
         AsteroidEntity(
             id = it.id,
@@ -40,7 +40,7 @@ fun List<Asteroid>.asDatabaseModel(): Array<AsteroidEntity> {
     }.toTypedArray()
 }
 
-fun List<AsteroidEntity>.asDomainModel(): List<AsteroidViewData> {
+fun List<AsteroidEntity>.asViewDataModel(): List<AsteroidViewData> {
     return map {
         AsteroidViewData(
             id = it.id,

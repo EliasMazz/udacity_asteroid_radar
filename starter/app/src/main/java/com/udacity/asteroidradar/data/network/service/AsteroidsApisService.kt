@@ -1,4 +1,4 @@
-package com.udacity.asteroidradar.data.network
+package com.udacity.asteroidradar.data.network.service
 
 import com.udacity.asteroidradar.common.Constants.API_KEY
 import retrofit2.http.GET

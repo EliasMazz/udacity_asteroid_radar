@@ -1,12 +1,12 @@
-package com.udacity.asteroidradar.main
+package com.udacity.asteroidradar.main.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mindorks.bootcamp.instagram.utils.log.Logger
-import com.udacity.asteroidradar.data.network.PictureOfDay
-import com.udacity.asteroidradar.data.network.PictureOfDayApiService
+import com.udacity.asteroidradar.data.network.models.PictureOfDay
+import com.udacity.asteroidradar.data.network.service.PictureOfDayApiService
 import com.udacity.asteroidradar.main.model.AsteroidViewData
 import com.udacity.asteroidradar.main.repository.AsteroidRepository
 import kotlinx.coroutines.launch
