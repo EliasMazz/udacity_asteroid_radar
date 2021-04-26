@@ -1,20 +1,17 @@
-package com.udacity.asteroidradar.data.repository
+package com.udacity.asteroidradar.main.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.viewModelScope
 import com.mindorks.bootcamp.instagram.utils.log.Logger
 import com.udacity.asteroidradar.data.db.dao.AsteroidDao
 import com.udacity.asteroidradar.data.db.model.asDatabaseModel
 import com.udacity.asteroidradar.data.db.model.asDomainModel
-import com.udacity.asteroidradar.data.network.Asteroid
 import com.udacity.asteroidradar.data.network.AsteroidsApisService
 import com.udacity.asteroidradar.data.network.exception.NoNetworkException
 import com.udacity.asteroidradar.data.network.parseAsteroidsJsonResult
-import com.udacity.asteroidradar.main.AsteroidFormatRequest
-import com.udacity.asteroidradar.main.MainViewModel
+import com.udacity.asteroidradar.main.model.AsteroidFormatRequest
+import com.udacity.asteroidradar.main.model.AsteroidViewData
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.lang.Exception
@@ -26,7 +23,7 @@ class AsteroidRepository(
 ) {
     private val logTag = AsteroidRepository::class.java.toString()
 
-    val asteroidList: LiveData<List<Asteroid>> = Transformations.map(asteroidDao.getAllAsteroids()) {
+    val asteroidList: LiveData<List<AsteroidViewData>> = Transformations.map(asteroidDao.getAllAsteroids()) {
         it.asDomainModel()
     }
 

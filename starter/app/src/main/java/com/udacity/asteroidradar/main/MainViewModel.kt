@@ -1,16 +1,14 @@
 package com.udacity.asteroidradar.main
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mindorks.bootcamp.instagram.utils.log.Logger
-import com.udacity.asteroidradar.data.network.Asteroid
 import com.udacity.asteroidradar.data.network.PictureOfDay
 import com.udacity.asteroidradar.data.network.PictureOfDayApiService
-import com.udacity.asteroidradar.data.network.exception.NoNetworkException
-import com.udacity.asteroidradar.data.repository.AsteroidRepository
+import com.udacity.asteroidradar.main.model.AsteroidViewData
+import com.udacity.asteroidradar.main.repository.AsteroidRepository
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -51,11 +49,11 @@ class MainViewModel(
         }
     }
 
-    private val _navigateToAsteroidDetail = MutableLiveData<Asteroid?>()
+    private val _navigateToAsteroidDetail = MutableLiveData<AsteroidViewData?>()
     val navigateToAsteroidDetail
         get() = _navigateToAsteroidDetail
 
-    fun onAsteroidClicked(asteroid: Asteroid) {
+    fun onAsteroidClicked(asteroid: AsteroidViewData) {
         _navigateToAsteroidDetail.value = asteroid
     }
 

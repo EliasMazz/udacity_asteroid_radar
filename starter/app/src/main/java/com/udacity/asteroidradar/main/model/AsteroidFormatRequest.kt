@@ -1,4 +1,4 @@
-package com.udacity.asteroidradar.main
+package com.udacity.asteroidradar.main.model
 
 import android.util.Log
 import java.lang.Exception

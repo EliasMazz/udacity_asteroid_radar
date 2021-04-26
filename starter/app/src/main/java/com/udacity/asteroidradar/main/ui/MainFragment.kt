@@ -1,4 +1,4 @@
-package com.udacity.asteroidradar.main
+package com.udacity.asteroidradar.main.ui
 
 import android.os.Bundle
 import android.view.*
@@ -8,10 +8,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.udacity.asteroidradar.MainActivity
-import com.udacity.asteroidradar.data.network.Asteroid
 import com.udacity.asteroidradar.R
-import com.udacity.asteroidradar.data.repository.AsteroidRepository
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
+import com.udacity.asteroidradar.main.model.AsteroidViewData
+import com.udacity.asteroidradar.main.MainViewModel
+import com.udacity.asteroidradar.main.MainViewModelFactory
+import com.udacity.asteroidradar.main.repository.AsteroidRepository
 
 class MainFragment : Fragment() {
 
@@ -40,7 +42,7 @@ class MainFragment : Fragment() {
 
         binding.asteroidRecycler.adapter = adapter
 
-        viewModel.listAsteroid.observe(viewLifecycleOwner, Observer<List<Asteroid>> {
+        viewModel.listAsteroid.observe(viewLifecycleOwner, Observer<List<AsteroidViewData>> {
             adapter.submitList(it)
         })
 

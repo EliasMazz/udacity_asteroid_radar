@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.udacity.asteroidradar.data.network.Asteroid
+import com.udacity.asteroidradar.main.model.AsteroidViewData
 
 @Entity
 data class AsteroidEntity(
@@ -39,9 +40,9 @@ fun List<Asteroid>.asDatabaseModel(): Array<AsteroidEntity> {
     }.toTypedArray()
 }
 
-fun List<AsteroidEntity>.asDomainModel(): List<Asteroid> {
+fun List<AsteroidEntity>.asDomainModel(): List<AsteroidViewData> {
     return map {
-        Asteroid(
+        AsteroidViewData(
             id = it.id,
             codename = it.codename,
             closeApproachDate = it.closeApproachDate,

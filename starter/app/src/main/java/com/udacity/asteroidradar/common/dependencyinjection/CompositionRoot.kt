@@ -7,19 +7,17 @@ import androidx.room.Room
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.udacity.asteroidradar.BuildConfig
-import com.udacity.asteroidradar.MyApplication
 import com.udacity.asteroidradar.common.Constants
 import com.udacity.asteroidradar.data.db.AsteroidRadarDataBase
 import com.udacity.asteroidradar.data.network.PictureOfDayApiService
 import com.udacity.asteroidradar.data.network.AsteroidsApisService
 import com.udacity.asteroidradar.data.network.interceptor.RequestInterceptor
-import com.udacity.asteroidradar.data.repository.AsteroidRepository
+import com.udacity.asteroidradar.main.repository.AsteroidRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import java.security.AccessControlContext
 
 class CompositionRoot(application: Application) {
 
