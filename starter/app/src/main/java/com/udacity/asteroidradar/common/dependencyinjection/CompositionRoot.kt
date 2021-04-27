@@ -19,6 +19,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.util.concurrent.TimeUnit
 
 class CompositionRoot(application: Application) {
 
@@ -33,6 +34,8 @@ class CompositionRoot(application: Application) {
         requestInterceptor: RequestInterceptor
     ): OkHttpClient {
         val clientBuilder = OkHttpClient.Builder()
+            .readTimeout(60, TimeUnit.SECONDS)
+            .connectTimeout(60, TimeUnit.SECONDS)
         clientBuilder.addInterceptor(requestInterceptor)
         if (BuildConfig.DEBUG) {
             clientBuilder.addInterceptor(interceptor)
