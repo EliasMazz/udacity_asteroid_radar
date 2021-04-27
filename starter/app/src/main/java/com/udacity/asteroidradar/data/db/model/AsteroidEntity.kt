@@ -3,8 +3,11 @@ package com.udacity.asteroidradar.data.db.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.udacity.asteroidradar.common.DateFormat.dateFormat
 import com.udacity.asteroidradar.data.network.models.AsteroidResponse
 import com.udacity.asteroidradar.main.model.AsteroidViewData
+import java.time.LocalDate
+import java.util.*
 
 @Entity
 data class AsteroidEntity(
@@ -12,7 +15,7 @@ data class AsteroidEntity(
     val id: Long,
     val codename: String,
     @ColumnInfo(name = "close_approach_date")
-    val closeApproachDate: String,
+    val closeApproachDate: LocalDate?,
     @ColumnInfo(name = "absolute_magnitude")
     val absoluteMagnitude: Double,
     @ColumnInfo(name = "estimated_diameter")
@@ -25,33 +28,16 @@ data class AsteroidEntity(
     val isPotentiallyHazardous: Boolean
 )
 
-fun List<AsteroidResponse>.asDatabaseModel(): Array<AsteroidEntity> {
-    return map {
-        AsteroidEntity(
-            id = it.id,
-            codename = it.codename,
-            closeApproachDate = it.closeApproachDate,
-            absoluteMagnitude = it.absoluteMagnitude,
-            estimatedDiameter = it.estimatedDiameter,
-            relativeVelocity = it.relativeVelocity,
-            distanceFromEarth = it.distanceFromEarth,
-            isPotentiallyHazardous = it.isPotentiallyHazardous
+fun AsteroidEntity.asViewDataModel(): AsteroidViewData {
+    return AsteroidViewData(
+            id = this.id,
+            codename = this.codename,
+            closeApproachDate = if (this.closeApproachDate == null) "" else this.closeApproachDate.format(dateFormat),
+            absoluteMagnitude = this.absoluteMagnitude,
+            estimatedDiameter = this.estimatedDiameter,
+            relativeVelocity = this.relativeVelocity,
+            distanceFromEarth = this.distanceFromEarth,
+            isPotentiallyHazardous = this.isPotentiallyHazardous
         )
-    }.toTypedArray()
-}
-
-fun List<AsteroidEntity>.asViewDataModel(): List<AsteroidViewData> {
-    return map {
-        AsteroidViewData(
-            id = it.id,
-            codename = it.codename,
-            closeApproachDate = it.closeApproachDate,
-            absoluteMagnitude = it.absoluteMagnitude,
-            estimatedDiameter = it.estimatedDiameter,
-            relativeVelocity = it.relativeVelocity,
-            distanceFromEarth = it.distanceFromEarth,
-            isPotentiallyHazardous = it.isPotentiallyHazardous
-        )
-    }
 }
 

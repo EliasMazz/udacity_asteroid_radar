@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.udacity.asteroidradar.MainActivity
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
+import com.udacity.asteroidradar.main.model.AsteroidFilterViewData
 import com.udacity.asteroidradar.main.model.AsteroidViewData
 import com.udacity.asteroidradar.main.viewmodel.MainViewModel
 import com.udacity.asteroidradar.main.viewmodel.MainViewModelFactory
@@ -42,7 +43,7 @@ class MainFragment : Fragment() {
 
         binding.asteroidRecycler.adapter = adapter
 
-        viewModel.listAsteroid.observe(viewLifecycleOwner, Observer<List<AsteroidViewData>> {
+        viewModel.asteroidList.observe(viewLifecycleOwner, Observer<List<AsteroidViewData>> {
             adapter.submitList(it)
         })
 
@@ -61,6 +62,7 @@ class MainFragment : Fragment() {
                 AsteroidRepository.Result.GeneralError -> Toast.makeText(requireContext(), "Error while trying to refresh asteroids", Toast.LENGTH_SHORT).show()
                 AsteroidRepository.Result.NoInternet -> Toast.makeText(requireContext(), "Error while trying to refresh, no internet connection", Toast.LENGTH_SHORT).show()
             }
+
         })
 
         setHasOptionsMenu(true)
@@ -74,6 +76,11 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return true
+        when (item.itemId) {
+            R.id.show_saved_menu -> viewModel.filterAsteroidList(AsteroidFilterViewData.SAVED)
+            R.id.show_today_menu -> viewModel.filterAsteroidList(AsteroidFilterViewData.TODAY)
+            R.id.show_week_menu -> viewModel.filterAsteroidList(AsteroidFilterViewData.WEEK)
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
