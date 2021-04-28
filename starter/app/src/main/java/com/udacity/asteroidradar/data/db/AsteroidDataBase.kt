@@ -14,7 +14,7 @@ import com.udacity.asteroidradar.data.db.model.AsteroidEntity
     version = 1
 )
 @TypeConverters(Converters::class)
-abstract class AsteroidRadarDataBase : RoomDatabase() {
+abstract class AsteroidDataBase : RoomDatabase() {
 
     abstract fun asteroidDao(): AsteroidDao
 

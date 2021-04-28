@@ -8,7 +8,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.common.Constants
-import com.udacity.asteroidradar.data.db.AsteroidRadarDataBase
+import com.udacity.asteroidradar.data.db.AsteroidDataBase
 import com.udacity.asteroidradar.data.network.service.PictureOfDayApiService
 import com.udacity.asteroidradar.data.network.service.AsteroidsApisService
 import com.udacity.asteroidradar.data.network.interceptor.RequestInterceptor
@@ -74,7 +74,7 @@ class CompositionRoot(application: Application) {
     private val database by lazy {
         Room.databaseBuilder(
             application,
-            AsteroidRadarDataBase::class.java,
+            AsteroidDataBase::class.java,
             "asteroid_radar_database"
         ).build()
     }
