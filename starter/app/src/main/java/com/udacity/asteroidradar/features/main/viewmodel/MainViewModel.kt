@@ -9,14 +9,23 @@ import com.udacity.asteroidradar.data.network.models.PictureOfDayResponse
 import com.udacity.asteroidradar.data.network.service.PictureOfDayApiService
 import com.udacity.asteroidradar.features.main.model.AsteroidFilterViewData
 import com.udacity.asteroidradar.features.main.model.AsteroidViewData
-import com.udacity.asteroidradar.data.repository.AsteroidRepository
+import com.udacity.asteroidradar.data.repository.AsteroidRepositoryImpl
+import com.udacity.asteroidradar.features.main.domain.GetAsteroidListUseCase
+import com.udacity.asteroidradar.features.main.domain.GetTodayAsteroidListUseCase
+import com.udacity.asteroidradar.features.main.domain.GetWeekAsteroidListUseCase
+import com.udacity.asteroidradar.features.main.domain.RefreshAsteroidListUseCase
+import com.udacity.asteroidradar.features.main.domain.RefreshAsteroidListUseCase.*
+import com.udacity.asteroidradar.features.main.domain.model.asViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 class MainViewModel(
-    private val asteroidRepository: AsteroidRepository,
+    private val getAsteroidListUseCase: GetAsteroidListUseCase,
+    private val getTodayAsteroidListUseCase: GetTodayAsteroidListUseCase,
+    private val getWeekAsteroidListUseCase: GetWeekAsteroidListUseCase,
+    private val refreshAsteroidListUseCase: RefreshAsteroidListUseCase,
     private val pictureOfDayApiService: PictureOfDayApiService
 ) : ViewModel() {
 
@@ -26,9 +35,9 @@ class MainViewModel(
         get() = _asteroidList
     private var _asteroidList = MutableLiveData<List<AsteroidViewData>>()
 
-    val refreshAsteroidResult: LiveData<AsteroidRepository.Result>
+    val refreshAsteroidResult: LiveData<Result>
         get() = _refreshResult
-    private val _refreshResult = MutableLiveData<AsteroidRepository.Result>()
+    private val _refreshResult = MutableLiveData<Result>()
 
     val pictureOfDayResponse: LiveData<PictureOfDayResponse>
         get() = _pictureOfDay
@@ -46,16 +55,26 @@ class MainViewModel(
         viewModelScope.launch {
             try {
                 val filteredAsteroidList = when (filter) {
-                    AsteroidFilterViewData.SAVED -> asteroidRepository.getAllAsteroidList()
-                    AsteroidFilterViewData.TODAY -> asteroidRepository.getTodayAsteroidList()
-                    AsteroidFilterViewData.WEEK -> asteroidRepository.getWeekAsteroidList()
+                    AsteroidFilterViewData.SAVED -> getAsteroidListUseCase.invoke()
+                    AsteroidFilterViewData.TODAY -> getTodayAsteroidListUseCase.invoke()
+                    AsteroidFilterViewData.WEEK -> getWeekAsteroidListUseCase.invoke()
                 }
                 withContext(Dispatchers.Main.immediate) {
-                    _asteroidList.postValue(filteredAsteroidList)
+                    _asteroidList.postValue(filteredAsteroidList.map {
+                        it.asViewData()
+                    })
                 }
             } catch (e: Exception) {
                 Logger.e(logTag, e.toString())
             }
+        }
+    }
+
+    private fun refreshAsteroids() {
+        viewModelScope.launch {
+            _refreshResult.value = refreshAsteroidListUseCase.invoke()
+            filterAsteroidList(filter)
+            onAsteroidRefreshed()
         }
     }
 
@@ -66,14 +85,6 @@ class MainViewModel(
             } catch (e: Exception) {
                 Logger.e(logTag, e.toString())
             }
-        }
-    }
-
-    private fun refreshAsteroids() {
-        viewModelScope.launch {
-            _refreshResult.value = asteroidRepository.refreshAsteroidList()
-            filterAsteroidList(filter)
-            onAsteroidRefreshed()
         }
     }
 

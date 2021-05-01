@@ -14,7 +14,9 @@ import com.udacity.asteroidradar.features.main.model.AsteroidFilterViewData
 import com.udacity.asteroidradar.features.main.model.AsteroidViewData
 import com.udacity.asteroidradar.features.main.viewmodel.MainViewModel
 import com.udacity.asteroidradar.features.main.viewmodel.MainViewModelFactory
-import com.udacity.asteroidradar.data.repository.AsteroidRepository
+import com.udacity.asteroidradar.data.repository.AsteroidRepositoryImpl
+import com.udacity.asteroidradar.features.main.domain.RefreshAsteroidListUseCase
+import com.udacity.asteroidradar.features.main.domain.RefreshAsteroidListUseCase.Result
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
@@ -24,8 +26,11 @@ class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by lazy {
         val viewModelFactory = MainViewModelFactory(
-            compositionRoot.asteroidRepository,
-            compositionRoot.pictureOfDayService
+            getAsteroidListUseCase = compositionRoot.getAsteroidListUseCase,
+            getTodayAsteroidListUseCase = compositionRoot.getTodayAsteroidListUseCase,
+            getWeekAsteroidListUseCase = compositionRoot.getWeekAsteroidListUseCase,
+            refreshAsteroidListUseCase = compositionRoot.refreshAsteroidListUseCase,
+            pictureOfDayApiService = compositionRoot.pictureOfDayService
         )
 
         ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
@@ -68,11 +73,10 @@ class MainFragment : Fragment() {
 
         viewModel.refreshAsteroidResult.observe(viewLifecycleOwner, Observer {
             when (it) {
-                AsteroidRepository.Result.Success -> showToast(getString(R.string.refresh_sucessfuly))
-                AsteroidRepository.Result.GeneralError -> showToast(getString(R.string.refresh_generic_error))
-                AsteroidRepository.Result.NoInternet -> showToast(getString(R.string.refresh_no_internet_connection))
+                Result.Success -> showToast(getString(R.string.refresh_sucessfuly))
+                Result.GeneralError -> showToast(getString(R.string.refresh_generic_error))
+                Result.NoInternet -> showToast(getString(R.string.refresh_no_internet_connection))
             }
-
         })
 
         setHasOptionsMenu(true)

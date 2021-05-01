@@ -16,13 +16,19 @@ import com.udacity.asteroidradar.data.network.service.PictureOfDayApiService
 import com.udacity.asteroidradar.data.network.service.AsteroidsApisService
 import com.udacity.asteroidradar.data.network.interceptor.RequestInterceptor
 import com.udacity.asteroidradar.data.network.api.FetchAsteroidsAPI
-import com.udacity.asteroidradar.data.repository.AsteroidRepository
+import com.udacity.asteroidradar.data.repository.AsteroidRepositoryImpl
+import com.udacity.asteroidradar.features.main.data.IAsteroidRepository
+import com.udacity.asteroidradar.features.main.domain.GetAsteroidListUseCase
+import com.udacity.asteroidradar.features.main.domain.GetTodayAsteroidListUseCase
+import com.udacity.asteroidradar.features.main.domain.GetWeekAsteroidListUseCase
+import com.udacity.asteroidradar.features.main.domain.RefreshAsteroidListUseCase
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
+
 class CompositionRoot(application: Application) {
 
     private val connectivityManager = application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -81,12 +87,20 @@ class CompositionRoot(application: Application) {
         ).build()
     }
 
-    val asteroidRepository: AsteroidRepository by lazy {
-        AsteroidRepository(
+    private val asteroidRepository: IAsteroidRepository by lazy {
+        AsteroidRepositoryImpl(
             database.asteroidDao(),
             fetchAsteroidsAPI
         )
     }
+
+    val getAsteroidListUseCase = GetAsteroidListUseCase(asteroidRepository)
+
+    val getTodayAsteroidListUseCase = GetTodayAsteroidListUseCase(asteroidRepository)
+
+    val getWeekAsteroidListUseCase = GetWeekAsteroidListUseCase(asteroidRepository)
+
+    val refreshAsteroidListUseCase = RefreshAsteroidListUseCase(asteroidRepository)
 }
 
 

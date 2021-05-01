@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.udacity.asteroidradar.common.DateFormat.dateFormat
+import com.udacity.asteroidradar.features.main.domain.model.Asteroid
 import com.udacity.asteroidradar.features.main.model.AsteroidViewData
 import java.time.LocalDate
 import java.util.*
@@ -27,8 +28,8 @@ data class AsteroidEntity(
     val isPotentiallyHazardous: Boolean
 )
 
-fun AsteroidEntity.asViewDataModel(): AsteroidViewData {
-    return AsteroidViewData(
+fun AsteroidEntity.asDomainModel(): Asteroid {
+    return Asteroid(
             id = this.id,
             codename = this.codename,
             closeApproachDate = if (this.closeApproachDate == null) "" else this.closeApproachDate.format(dateFormat),

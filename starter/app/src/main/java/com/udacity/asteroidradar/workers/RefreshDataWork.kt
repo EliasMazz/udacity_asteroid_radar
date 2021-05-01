@@ -16,8 +16,8 @@ class RefreshDataWork(
 
     override suspend fun doWork(): Result {
         return try {
-            val asteroidRepository = (applicationContext as MyApplication).applicationCompositionRoot.asteroidRepository
-            asteroidRepository.refreshAsteroidList()
+            val refreshAsteroidListUseCase = (applicationContext as MyApplication).applicationCompositionRoot.refreshAsteroidListUseCase
+            refreshAsteroidListUseCase.invoke()
             Result.success()
         } catch (exception: HttpException) {
             Result.retry()
