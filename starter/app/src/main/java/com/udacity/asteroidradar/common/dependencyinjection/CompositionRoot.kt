@@ -8,6 +8,9 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.common.Constants
+import com.udacity.asteroidradar.common.Constants.ASTEROID_RADAR_DATABASE
+import com.udacity.asteroidradar.common.Constants.CONNECT_TIMEOUT_TIME
+import com.udacity.asteroidradar.common.Constants.READ_TIMEOUT_TIME
 import com.udacity.asteroidradar.data.db.AsteroidDataBase
 import com.udacity.asteroidradar.data.network.service.PictureOfDayApiService
 import com.udacity.asteroidradar.data.network.service.AsteroidsApisService
@@ -20,7 +23,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
-
 class CompositionRoot(application: Application) {
 
     private val connectivityManager = application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -34,8 +36,8 @@ class CompositionRoot(application: Application) {
         requestInterceptor: RequestInterceptor
     ): OkHttpClient {
         val clientBuilder = OkHttpClient.Builder()
-            .readTimeout(60, TimeUnit.SECONDS)
-            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT_TIME, TimeUnit.SECONDS)
+            .connectTimeout(CONNECT_TIMEOUT_TIME, TimeUnit.SECONDS)
         clientBuilder.addInterceptor(requestInterceptor)
         if (BuildConfig.DEBUG) {
             clientBuilder.addInterceptor(interceptor)
@@ -75,7 +77,7 @@ class CompositionRoot(application: Application) {
         Room.databaseBuilder(
             application,
             AsteroidDataBase::class.java,
-            "asteroid_radar_database"
+            ASTEROID_RADAR_DATABASE
         ).build()
     }
 
