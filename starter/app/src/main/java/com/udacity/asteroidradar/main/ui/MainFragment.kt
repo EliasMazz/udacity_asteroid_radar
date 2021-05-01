@@ -58,9 +58,9 @@ class MainFragment : Fragment() {
 
         viewModel.refreshAsteroidResult.observe(viewLifecycleOwner, Observer {
             when (it) {
-                AsteroidRepository.Result.Success -> Toast.makeText(requireContext(), "Asteroids was refreshed sucessfuly", Toast.LENGTH_SHORT).show()
-                AsteroidRepository.Result.GeneralError -> Toast.makeText(requireContext(), "Error while trying to refresh asteroids", Toast.LENGTH_SHORT).show()
-                AsteroidRepository.Result.NoInternet -> Toast.makeText(requireContext(), "Error while trying to refresh, no internet connection", Toast.LENGTH_SHORT).show()
+                AsteroidRepository.Result.Success -> showToast(getString(R.string.refresh_sucessfuly))
+                AsteroidRepository.Result.GeneralError -> showToast(getString(R.string.refresh_generic_error))
+                AsteroidRepository.Result.NoInternet -> showToast(getString(R.string.refresh_no_internet_connection))
             }
 
         })
@@ -69,6 +69,9 @@ class MainFragment : Fragment() {
 
         return binding.root
     }
+
+    private fun showToast(message: String) =
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.main_overflow_menu, menu)
