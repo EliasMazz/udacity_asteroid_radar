@@ -15,8 +15,8 @@ import com.udacity.asteroidradar.data.db.AsteroidDataBase
 import com.udacity.asteroidradar.data.network.service.PictureOfDayApiService
 import com.udacity.asteroidradar.data.network.service.AsteroidsApisService
 import com.udacity.asteroidradar.data.network.interceptor.RequestInterceptor
-import com.udacity.asteroidradar.main.domain.FetchAsteroidsUseCase
-import com.udacity.asteroidradar.main.repository.AsteroidRepository
+import com.udacity.asteroidradar.data.network.api.FetchAsteroidsAPI
+import com.udacity.asteroidradar.data.repository.AsteroidRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -67,7 +67,7 @@ class CompositionRoot(application: Application) {
         retrofit.create(AsteroidsApisService::class.java)
     }
 
-    private val fetchAsteroidsUseCase: FetchAsteroidsUseCase = FetchAsteroidsUseCase(asteroidService)
+    private val fetchAsteroidsAPI: FetchAsteroidsAPI = FetchAsteroidsAPI(asteroidService)
 
     val pictureOfDayService: PictureOfDayApiService by lazy {
         retrofit.create(PictureOfDayApiService::class.java)
@@ -84,10 +84,9 @@ class CompositionRoot(application: Application) {
     val asteroidRepository: AsteroidRepository by lazy {
         AsteroidRepository(
             database.asteroidDao(),
-            fetchAsteroidsUseCase
+            fetchAsteroidsAPI
         )
     }
-
 }
 
 

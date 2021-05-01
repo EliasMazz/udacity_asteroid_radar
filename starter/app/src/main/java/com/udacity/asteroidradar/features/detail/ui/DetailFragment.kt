@@ -1,4 +1,4 @@
-package com.udacity.asteroidradar.detail
+package com.udacity.asteroidradar.features.detail.ui
 
 
 import android.os.Bundle

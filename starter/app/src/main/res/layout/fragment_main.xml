@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.udacity.asteroidradar.main.viewmodel.MainViewModel" />
+            type="com.udacity.asteroidradar.features.main.viewmodel.MainViewModel" />
 
     </data>
 
@@ -28,7 +28,7 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                app:imageUrl="@{viewModel.pictureOfDay}"
+                app:imageUrl="@{viewModel.pictureOfDayResponse}"
                 app:srcCompat="@drawable/placeholder_picture_of_day"/>
 
             <TextView

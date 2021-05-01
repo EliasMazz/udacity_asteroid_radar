@@ -1,12 +1,12 @@
-package com.udacity.asteroidradar.main.repository
+package com.udacity.asteroidradar.data.repository
 
 import com.mindorks.bootcamp.instagram.utils.log.Logger
 import com.udacity.asteroidradar.data.db.dao.AsteroidDao
 import com.udacity.asteroidradar.data.db.model.asViewDataModel
 import com.udacity.asteroidradar.data.network.exception.NoNetworkException
 import com.udacity.asteroidradar.data.network.models.asDatabaseModel
-import com.udacity.asteroidradar.main.domain.FetchAsteroidsUseCase
-import com.udacity.asteroidradar.main.model.AsteroidViewData
+import com.udacity.asteroidradar.data.network.api.FetchAsteroidsAPI
+import com.udacity.asteroidradar.features.main.model.AsteroidViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.Exception
@@ -15,7 +15,7 @@ import java.util.*
 
 class AsteroidRepository(
     private val asteroidDao: AsteroidDao,
-    private val fetchAsteroidsUseCase: FetchAsteroidsUseCase
+    private val fetchAsteroidsAPI: FetchAsteroidsAPI
 ) {
     private val logTag = AsteroidRepository::class.java.toString()
 
@@ -29,14 +29,14 @@ class AsteroidRepository(
             .map { it.asViewDataModel() }
     }
 
-    suspend fun getWeeksteroidList(): List<AsteroidViewData> = withContext(Dispatchers.IO) {
+    suspend fun getWeekAsteroidList(): List<AsteroidViewData> = withContext(Dispatchers.IO) {
         asteroidDao.getAsteroidsByDateRange(LocalDate.now(), LocalDate.now().plusDays(7))
             .map { it.asViewDataModel() }
     }
 
     suspend fun refreshAsteroidList(): Result = withContext(Dispatchers.IO) {
         try {
-            val asteroidListResponse = fetchAsteroidsUseCase.fetchAsteroidsWithTimeRange()
+            val asteroidListResponse = fetchAsteroidsAPI.fetchAsteroidsWithTimeRange()
             asteroidDao.insertAll(
                 *asteroidListResponse.map {
                     it.asDatabaseModel()

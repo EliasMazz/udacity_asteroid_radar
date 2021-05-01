@@ -1,15 +1,15 @@
-package com.udacity.asteroidradar.main.viewmodel
+package com.udacity.asteroidradar.features.main.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mindorks.bootcamp.instagram.utils.log.Logger
-import com.udacity.asteroidradar.data.network.models.PictureOfDay
+import com.udacity.asteroidradar.data.network.models.PictureOfDayResponse
 import com.udacity.asteroidradar.data.network.service.PictureOfDayApiService
-import com.udacity.asteroidradar.main.model.AsteroidFilterViewData
-import com.udacity.asteroidradar.main.model.AsteroidViewData
-import com.udacity.asteroidradar.main.repository.AsteroidRepository
+import com.udacity.asteroidradar.features.main.model.AsteroidFilterViewData
+import com.udacity.asteroidradar.features.main.model.AsteroidViewData
+import com.udacity.asteroidradar.data.repository.AsteroidRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -30,9 +30,9 @@ class MainViewModel(
         get() = _refreshResult
     private val _refreshResult = MutableLiveData<AsteroidRepository.Result>()
 
-    val pictureOfDay: LiveData<PictureOfDay>
+    val pictureOfDayResponse: LiveData<PictureOfDayResponse>
         get() = _pictureOfDay
-    private val _pictureOfDay = MutableLiveData<PictureOfDay>()
+    private val _pictureOfDay = MutableLiveData<PictureOfDayResponse>()
 
     private val filter: AsteroidFilterViewData = AsteroidFilterViewData.SAVED
 
@@ -48,7 +48,7 @@ class MainViewModel(
                 val filteredAsteroidList = when (filter) {
                     AsteroidFilterViewData.SAVED -> asteroidRepository.getAllAsteroidList()
                     AsteroidFilterViewData.TODAY -> asteroidRepository.getTodayAsteroidList()
-                    AsteroidFilterViewData.WEEK -> asteroidRepository.getWeeksteroidList()
+                    AsteroidFilterViewData.WEEK -> asteroidRepository.getWeekAsteroidList()
                 }
                 withContext(Dispatchers.Main.immediate) {
                     _asteroidList.postValue(filteredAsteroidList)

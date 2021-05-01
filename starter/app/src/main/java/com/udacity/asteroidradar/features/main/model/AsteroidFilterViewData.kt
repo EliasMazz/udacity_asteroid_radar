@@ -1,4 +1,4 @@
-package com.udacity.asteroidradar.main.model
+package com.udacity.asteroidradar.features.main.model
 
 enum class AsteroidFilterViewData {
     TODAY,

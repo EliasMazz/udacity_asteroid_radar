@@ -1,7 +1,9 @@
-package com.udacity.asteroidradar
+package com.udacity.asteroidradar.features.main.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.udacity.asteroidradar.MyApplication
+import com.udacity.asteroidradar.R
 
 class MainActivity : AppCompatActivity() {
 

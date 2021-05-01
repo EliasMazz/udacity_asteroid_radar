@@ -4,8 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.udacity.asteroidradar.common.DateFormat.dateFormat
-import com.udacity.asteroidradar.data.network.models.AsteroidResponse
-import com.udacity.asteroidradar.main.model.AsteroidViewData
+import com.udacity.asteroidradar.features.main.model.AsteroidViewData
 import java.time.LocalDate
 import java.util.*
 

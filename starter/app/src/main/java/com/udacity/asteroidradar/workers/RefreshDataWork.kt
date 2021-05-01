@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.udacity.asteroidradar.MyApplication
-import com.udacity.asteroidradar.main.repository.AsteroidRepository
 import retrofit2.HttpException
 
 class RefreshDataWork(

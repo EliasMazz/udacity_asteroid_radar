@@ -1,4 +1,4 @@
-package com.udacity.asteroidradar.main.domain
+package com.udacity.asteroidradar.data.network.api
 
 import com.udacity.asteroidradar.common.DateFormat.dateFormat
 import com.udacity.asteroidradar.data.network.models.AsteroidResponse
@@ -8,9 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.time.LocalDate
-import java.util.Calendar
 
-class FetchAsteroidsUseCase(
+class FetchAsteroidsAPI(
     private val asteroidsApisService: AsteroidsApisService
 ) {
     suspend fun fetchAsteroidsWithTimeRange(): List<AsteroidResponse> = withContext(Dispatchers.IO) {

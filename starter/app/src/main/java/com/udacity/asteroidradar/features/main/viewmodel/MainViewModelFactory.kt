@@ -14,12 +14,12 @@
  *  limitations under the License.
  */
 
-package com.udacity.asteroidradar.main.viewmodel
+package com.udacity.asteroidradar.features.main.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.udacity.asteroidradar.data.network.service.PictureOfDayApiService
-import com.udacity.asteroidradar.main.repository.AsteroidRepository
+import com.udacity.asteroidradar.data.repository.AsteroidRepository
 
 /**
  * Simple ViewModel factory that provides the MarsProperty and context to the ViewModel.

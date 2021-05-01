@@ -6,10 +6,10 @@
     <data>
         <variable
             name="asteroid"
-            type="com.udacity.asteroidradar.main.model.AsteroidViewData" />
+            type="com.udacity.asteroidradar.features.main.model.AsteroidViewData" />
         <variable
             name="clickListener"
-            type="com.udacity.asteroidradar.main.ui.AsteroidAdapter.AsteroidClickListener" />
+            type="com.udacity.asteroidradar.features.main.ui.AsteroidAdapter.AsteroidClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -4,16 +4,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.squareup.picasso.Picasso
-import com.udacity.asteroidradar.data.network.models.PictureOfDay
-
-@BindingAdapter("statusIcon")
-fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
-    if (isHazardous) {
-        imageView.setImageResource(R.drawable.ic_status_potentially_hazardous)
-    } else {
-        imageView.setImageResource(R.drawable.ic_status_normal)
-    }
-}
+import com.udacity.asteroidradar.data.network.models.PictureOfDayResponse
 
 @BindingAdapter("asteroidStatusImage")
 fun bindDetailsStatusImage(imageView: ImageView, isHazardous: Boolean) {
@@ -42,11 +33,3 @@ fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
     textView.text = String.format(context.getString(R.string.km_s_unit_format), number)
 }
 
-@BindingAdapter("imageUrl")
-fun bindImageOfDay(view: ImageView, pictureOfDay: PictureOfDay?) {
-    if (pictureOfDay?.mediaType == "image") {
-        Picasso.with(view.context).load(pictureOfDay.url)
-            .placeholder(R.drawable.placeholder_picture_of_day)
-            .into(view)
-    }
-}
