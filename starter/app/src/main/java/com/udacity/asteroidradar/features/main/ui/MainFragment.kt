@@ -3,6 +3,7 @@ package com.udacity.asteroidradar.features.main.ui
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +17,8 @@ import com.udacity.asteroidradar.features.main.viewmodel.MainViewModelFactory
 import com.udacity.asteroidradar.data.repository.AsteroidRepository
 
 class MainFragment : Fragment() {
+    private var _binding: FragmentMainBinding? = null
+    private val binding get() = _binding!!
 
     private val compositionRoot get() = (requireActivity() as MainActivity).compositionRoot
 
@@ -29,10 +32,18 @@ class MainFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentMainBinding.inflate(inflater)
+        _binding = DataBindingUtil.inflate<FragmentMainBinding>(
+            inflater,
+            R.layout.fragment_main,
+            container,
+            false
+        )
+
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
@@ -84,5 +95,10 @@ class MainFragment : Fragment() {
             R.id.show_week_menu -> viewModel.filterAsteroidList(AsteroidFilterViewData.WEEK)
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }
