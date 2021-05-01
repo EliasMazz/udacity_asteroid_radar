@@ -1,8 +1,6 @@
 package com.udacity.asteroidradar.features.main.domain.model
 
-import com.udacity.asteroidradar.common.DateFormat
-import com.udacity.asteroidradar.data.db.model.AsteroidEntity
-import com.udacity.asteroidradar.features.main.model.AsteroidViewData
+import com.udacity.asteroidradar.features.main.ui.model.AsteroidViewData
 
 data class Asteroid(
     val id: Long,

@@ -10,12 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
-import com.udacity.asteroidradar.features.main.model.AsteroidFilterViewData
-import com.udacity.asteroidradar.features.main.model.AsteroidViewData
+import com.udacity.asteroidradar.features.main.ui.model.AsteroidFilterViewData
+import com.udacity.asteroidradar.features.main.ui.model.AsteroidViewData
 import com.udacity.asteroidradar.features.main.viewmodel.MainViewModel
 import com.udacity.asteroidradar.features.main.viewmodel.MainViewModelFactory
-import com.udacity.asteroidradar.data.repository.AsteroidRepositoryImpl
-import com.udacity.asteroidradar.features.main.domain.RefreshAsteroidListUseCase
 import com.udacity.asteroidradar.features.main.domain.RefreshAsteroidListUseCase.Result
 
 class MainFragment : Fragment() {

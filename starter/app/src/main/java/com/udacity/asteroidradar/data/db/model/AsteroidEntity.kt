@@ -5,9 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.udacity.asteroidradar.common.DateFormat.dateFormat
 import com.udacity.asteroidradar.features.main.domain.model.Asteroid
-import com.udacity.asteroidradar.features.main.model.AsteroidViewData
 import java.time.LocalDate
-import java.util.*
 
 @Entity
 data class AsteroidEntity(

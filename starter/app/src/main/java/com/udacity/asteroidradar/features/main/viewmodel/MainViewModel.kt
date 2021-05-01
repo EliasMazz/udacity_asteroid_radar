@@ -7,9 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.mindorks.bootcamp.instagram.utils.log.Logger
 import com.udacity.asteroidradar.data.network.models.PictureOfDayResponse
 import com.udacity.asteroidradar.data.network.service.PictureOfDayApiService
-import com.udacity.asteroidradar.features.main.model.AsteroidFilterViewData
-import com.udacity.asteroidradar.features.main.model.AsteroidViewData
-import com.udacity.asteroidradar.data.repository.AsteroidRepositoryImpl
+import com.udacity.asteroidradar.features.main.ui.model.AsteroidFilterViewData
+import com.udacity.asteroidradar.features.main.ui.model.AsteroidViewData
 import com.udacity.asteroidradar.features.main.domain.GetAsteroidListUseCase
 import com.udacity.asteroidradar.features.main.domain.GetTodayAsteroidListUseCase
 import com.udacity.asteroidradar.features.main.domain.GetWeekAsteroidListUseCase
