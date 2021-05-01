@@ -9,10 +9,10 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.time.LocalDate
 
-class FetchAsteroidsAPI(
+class FetchAsteroidsWithTimeRangeAPI(
     private val asteroidsApisService: AsteroidsApisService
 ) {
-    suspend fun fetchAsteroidsWithTimeRange(): List<AsteroidResponse> = withContext(Dispatchers.IO) {
+    suspend fun request(): List<AsteroidResponse> = withContext(Dispatchers.IO) {
         val startDate = LocalDate.now().format(dateFormat)
         val endDate = LocalDate.now().plusDays(7).format(dateFormat)
         return@withContext parseAsteroidsJsonResult(

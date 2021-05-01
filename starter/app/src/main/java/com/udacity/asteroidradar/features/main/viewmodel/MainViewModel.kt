@@ -10,11 +10,13 @@ import com.udacity.asteroidradar.data.network.service.PictureOfDayApiService
 import com.udacity.asteroidradar.features.main.ui.model.AsteroidFilterViewData
 import com.udacity.asteroidradar.features.main.ui.model.AsteroidViewData
 import com.udacity.asteroidradar.features.main.domain.GetAsteroidListUseCase
+import com.udacity.asteroidradar.features.main.domain.GetPictureOfDayUsecase
 import com.udacity.asteroidradar.features.main.domain.GetTodayAsteroidListUseCase
 import com.udacity.asteroidradar.features.main.domain.GetWeekAsteroidListUseCase
 import com.udacity.asteroidradar.features.main.domain.RefreshAsteroidListUseCase
 import com.udacity.asteroidradar.features.main.domain.RefreshAsteroidListUseCase.*
 import com.udacity.asteroidradar.features.main.domain.model.asViewData
+import com.udacity.asteroidradar.features.main.ui.model.PictureOfDayViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -25,7 +27,7 @@ class MainViewModel(
     private val getTodayAsteroidListUseCase: GetTodayAsteroidListUseCase,
     private val getWeekAsteroidListUseCase: GetWeekAsteroidListUseCase,
     private val refreshAsteroidListUseCase: RefreshAsteroidListUseCase,
-    private val pictureOfDayApiService: PictureOfDayApiService
+    private val getPictureOfDayUsecase: GetPictureOfDayUsecase
 ) : ViewModel() {
 
     private val logTag = MainViewModel::class.java.toString()
@@ -38,9 +40,9 @@ class MainViewModel(
         get() = _refreshResult
     private val _refreshResult = MutableLiveData<Result>()
 
-    val pictureOfDayResponse: LiveData<PictureOfDayResponse>
+    val pictureOfDay: LiveData<PictureOfDayViewData?>
         get() = _pictureOfDay
-    private val _pictureOfDay = MutableLiveData<PictureOfDayResponse>()
+    private val _pictureOfDay = MutableLiveData<PictureOfDayViewData?>()
 
     private val filter: AsteroidFilterViewData = AsteroidFilterViewData.SAVED
 
@@ -80,7 +82,7 @@ class MainViewModel(
     private fun getPictureOfDay() {
         viewModelScope.launch {
             try {
-                _pictureOfDay.value = pictureOfDayApiService.getPictureOfDay()
+                _pictureOfDay.value = getPictureOfDayUsecase.invoke()
             } catch (e: Exception) {
                 Logger.e(logTag, e.toString())
             }

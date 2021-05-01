@@ -28,7 +28,7 @@ class MainFragment : Fragment() {
             getTodayAsteroidListUseCase = compositionRoot.getTodayAsteroidListUseCase,
             getWeekAsteroidListUseCase = compositionRoot.getWeekAsteroidListUseCase,
             refreshAsteroidListUseCase = compositionRoot.refreshAsteroidListUseCase,
-            pictureOfDayApiService = compositionRoot.pictureOfDayService
+            pictureOfDayUsecase = compositionRoot.pictureOfDayUseCase
         )
 
         ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)

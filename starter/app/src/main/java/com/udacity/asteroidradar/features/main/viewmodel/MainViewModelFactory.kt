@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.udacity.asteroidradar.data.network.service.PictureOfDayApiService
 import com.udacity.asteroidradar.data.repository.AsteroidRepositoryImpl
 import com.udacity.asteroidradar.features.main.domain.GetAsteroidListUseCase
+import com.udacity.asteroidradar.features.main.domain.GetPictureOfDayUsecase
 import com.udacity.asteroidradar.features.main.domain.GetTodayAsteroidListUseCase
 import com.udacity.asteroidradar.features.main.domain.GetWeekAsteroidListUseCase
 import com.udacity.asteroidradar.features.main.domain.RefreshAsteroidListUseCase
@@ -33,7 +34,7 @@ class MainViewModelFactory(
     private val getTodayAsteroidListUseCase: GetTodayAsteroidListUseCase,
     private val getWeekAsteroidListUseCase: GetWeekAsteroidListUseCase,
     private val refreshAsteroidListUseCase: RefreshAsteroidListUseCase,
-    private val pictureOfDayApiService: PictureOfDayApiService
+    private val pictureOfDayUsecase: GetPictureOfDayUsecase
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -43,7 +44,7 @@ class MainViewModelFactory(
                 getTodayAsteroidListUseCase,
                 getWeekAsteroidListUseCase,
                 refreshAsteroidListUseCase,
-                pictureOfDayApiService
+                pictureOfDayUsecase
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

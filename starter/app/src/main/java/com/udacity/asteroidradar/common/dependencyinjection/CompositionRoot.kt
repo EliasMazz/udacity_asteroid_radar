@@ -15,10 +15,14 @@ import com.udacity.asteroidradar.data.db.AsteroidDataBase
 import com.udacity.asteroidradar.data.network.service.PictureOfDayApiService
 import com.udacity.asteroidradar.data.network.service.AsteroidsApisService
 import com.udacity.asteroidradar.data.network.interceptor.RequestInterceptor
-import com.udacity.asteroidradar.data.network.api.FetchAsteroidsAPI
+import com.udacity.asteroidradar.data.network.api.FetchAsteroidsWithTimeRangeAPI
+import com.udacity.asteroidradar.data.network.api.FetchPictureOfDayAPI
 import com.udacity.asteroidradar.data.repository.AsteroidRepositoryImpl
+import com.udacity.asteroidradar.data.repository.PictureOfDayRepositoryImpl
 import com.udacity.asteroidradar.features.main.data.IAsteroidRepository
+import com.udacity.asteroidradar.features.main.data.IPictureOfDayRepository
 import com.udacity.asteroidradar.features.main.domain.GetAsteroidListUseCase
+import com.udacity.asteroidradar.features.main.domain.GetPictureOfDayUsecase
 import com.udacity.asteroidradar.features.main.domain.GetTodayAsteroidListUseCase
 import com.udacity.asteroidradar.features.main.domain.GetWeekAsteroidListUseCase
 import com.udacity.asteroidradar.features.main.domain.RefreshAsteroidListUseCase
@@ -73,11 +77,14 @@ class CompositionRoot(application: Application) {
         retrofit.create(AsteroidsApisService::class.java)
     }
 
-    private val fetchAsteroidsAPI: FetchAsteroidsAPI = FetchAsteroidsAPI(asteroidService)
-
-    val pictureOfDayService: PictureOfDayApiService by lazy {
+    private val pictureOfDayService: PictureOfDayApiService by lazy {
         retrofit.create(PictureOfDayApiService::class.java)
     }
+
+    private val fetchAsteroidsWithTimeRangeAPI: FetchAsteroidsWithTimeRangeAPI = FetchAsteroidsWithTimeRangeAPI(asteroidService)
+
+    private val fetchPictureOfDayAPI: FetchPictureOfDayAPI = FetchPictureOfDayAPI(pictureOfDayService)
+
 
     private val database by lazy {
         Room.databaseBuilder(
@@ -90,7 +97,13 @@ class CompositionRoot(application: Application) {
     private val asteroidRepository: IAsteroidRepository by lazy {
         AsteroidRepositoryImpl(
             database.asteroidDao(),
-            fetchAsteroidsAPI
+            fetchAsteroidsWithTimeRangeAPI
+        )
+    }
+
+    private val pictureOfDayRepository: IPictureOfDayRepository by lazy {
+        PictureOfDayRepositoryImpl(
+            fetchPictureOfDayAPI
         )
     }
 
@@ -101,6 +114,8 @@ class CompositionRoot(application: Application) {
     val getWeekAsteroidListUseCase = GetWeekAsteroidListUseCase(asteroidRepository)
 
     val refreshAsteroidListUseCase = RefreshAsteroidListUseCase(asteroidRepository)
+
+    val pictureOfDayUseCase = GetPictureOfDayUsecase(pictureOfDayRepository)
 }
 
 
