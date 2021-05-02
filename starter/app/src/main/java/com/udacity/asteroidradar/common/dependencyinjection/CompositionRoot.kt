@@ -22,6 +22,7 @@ import com.udacity.asteroidradar.data.repository.PictureOfDayRepositoryImpl
 import com.udacity.asteroidradar.features.main.data.IAsteroidRepository
 import com.udacity.asteroidradar.features.main.data.IPictureOfDayRepository
 import com.udacity.asteroidradar.features.main.domain.GetAsteroidListUseCase
+import com.udacity.asteroidradar.features.main.domain.GetFilteredAsteroidListUseCase
 import com.udacity.asteroidradar.features.main.domain.GetPictureOfDayUsecase
 import com.udacity.asteroidradar.features.main.domain.GetTodayAsteroidListUseCase
 import com.udacity.asteroidradar.features.main.domain.GetWeekAsteroidListUseCase
@@ -107,11 +108,17 @@ class CompositionRoot(application: Application) {
         )
     }
 
-    val getAsteroidListUseCase = GetAsteroidListUseCase(asteroidRepository)
+    private val getAsteroidListUseCase = GetAsteroidListUseCase(asteroidRepository)
 
-    val getTodayAsteroidListUseCase = GetTodayAsteroidListUseCase(asteroidRepository)
+    private val getTodayAsteroidListUseCase = GetTodayAsteroidListUseCase(asteroidRepository)
 
-    val getWeekAsteroidListUseCase = GetWeekAsteroidListUseCase(asteroidRepository)
+    private val getWeekAsteroidListUseCase = GetWeekAsteroidListUseCase(asteroidRepository)
+
+    val filteredAsteroidListUseCase = GetFilteredAsteroidListUseCase(
+        getAsteroidListUseCase,
+        getTodayAsteroidListUseCase,
+        getWeekAsteroidListUseCase
+    )
 
     val refreshAsteroidListUseCase = RefreshAsteroidListUseCase(asteroidRepository)
 

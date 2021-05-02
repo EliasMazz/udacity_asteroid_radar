@@ -8,7 +8,7 @@ import java.time.LocalDate
 
 interface IAsteroidRepository {
     suspend fun getAllAsteroidList(): List<Asteroid>
-    suspend fun getTodayAsteroidList(today: LocalDate): List<Asteroid>
-    suspend fun getWeekAsteroidList(startDay: LocalDate, endDay: LocalDate): List<Asteroid>
+    suspend fun getAsteroidListByDate(date: LocalDate): List<Asteroid>
+    suspend fun getAsteroidListByDateRange(startDay: LocalDate, endDay: LocalDate): List<Asteroid>
     suspend fun refreshAsteroidList(): Result
 }

@@ -10,6 +10,7 @@ import com.udacity.asteroidradar.data.network.service.PictureOfDayApiService
 import com.udacity.asteroidradar.features.main.ui.model.AsteroidFilterViewData
 import com.udacity.asteroidradar.features.main.ui.model.AsteroidViewData
 import com.udacity.asteroidradar.features.main.domain.GetAsteroidListUseCase
+import com.udacity.asteroidradar.features.main.domain.GetFilteredAsteroidListUseCase
 import com.udacity.asteroidradar.features.main.domain.GetPictureOfDayUsecase
 import com.udacity.asteroidradar.features.main.domain.GetTodayAsteroidListUseCase
 import com.udacity.asteroidradar.features.main.domain.GetWeekAsteroidListUseCase
@@ -17,15 +18,14 @@ import com.udacity.asteroidradar.features.main.domain.RefreshAsteroidListUseCase
 import com.udacity.asteroidradar.features.main.domain.RefreshAsteroidListUseCase.*
 import com.udacity.asteroidradar.features.main.domain.model.asViewData
 import com.udacity.asteroidradar.features.main.ui.model.PictureOfDayViewData
+import com.udacity.asteroidradar.features.main.ui.model.asDomain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 class MainViewModel(
-    private val getAsteroidListUseCase: GetAsteroidListUseCase,
-    private val getTodayAsteroidListUseCase: GetTodayAsteroidListUseCase,
-    private val getWeekAsteroidListUseCase: GetWeekAsteroidListUseCase,
+    private val filteredAsteroidListUseCase: GetFilteredAsteroidListUseCase,
     private val refreshAsteroidListUseCase: RefreshAsteroidListUseCase,
     private val getPictureOfDayUsecase: GetPictureOfDayUsecase
 ) : ViewModel() {
@@ -55,11 +55,7 @@ class MainViewModel(
     fun filterAsteroidList(filter: AsteroidFilterViewData) {
         viewModelScope.launch {
             try {
-                val filteredAsteroidList = when (filter) {
-                    AsteroidFilterViewData.SAVED -> getAsteroidListUseCase.invoke()
-                    AsteroidFilterViewData.TODAY -> getTodayAsteroidListUseCase.invoke()
-                    AsteroidFilterViewData.WEEK -> getWeekAsteroidListUseCase.invoke()
-                }
+                val filteredAsteroidList = filteredAsteroidListUseCase.invoke(filter.asDomain())
                 withContext(Dispatchers.Main.immediate) {
                     _asteroidList.postValue(filteredAsteroidList.map {
                         it.asViewData()
@@ -73,9 +69,13 @@ class MainViewModel(
 
     private fun refreshAsteroids() {
         viewModelScope.launch {
-            _refreshResult.value = refreshAsteroidListUseCase.invoke()
-            filterAsteroidList(filter)
-            onAsteroidRefreshed()
+            try {
+                _refreshResult.value = refreshAsteroidListUseCase.invoke()
+                filterAsteroidList(filter)
+                onAsteroidRefreshed()
+            } catch (e: Exception) {
+                Logger.e(logTag, e.toString())
+            }
         }
     }
 

@@ -24,9 +24,7 @@ class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by lazy {
         val viewModelFactory = MainViewModelFactory(
-            getAsteroidListUseCase = compositionRoot.getAsteroidListUseCase,
-            getTodayAsteroidListUseCase = compositionRoot.getTodayAsteroidListUseCase,
-            getWeekAsteroidListUseCase = compositionRoot.getWeekAsteroidListUseCase,
+            filteredAsteroidListUseCase = compositionRoot.filteredAsteroidListUseCase,
             refreshAsteroidListUseCase = compositionRoot.refreshAsteroidListUseCase,
             pictureOfDayUsecase = compositionRoot.pictureOfDayUseCase
         )

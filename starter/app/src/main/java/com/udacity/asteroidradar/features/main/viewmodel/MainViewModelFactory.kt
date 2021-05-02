@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.udacity.asteroidradar.data.network.service.PictureOfDayApiService
 import com.udacity.asteroidradar.data.repository.AsteroidRepositoryImpl
 import com.udacity.asteroidradar.features.main.domain.GetAsteroidListUseCase
+import com.udacity.asteroidradar.features.main.domain.GetFilteredAsteroidListUseCase
 import com.udacity.asteroidradar.features.main.domain.GetPictureOfDayUsecase
 import com.udacity.asteroidradar.features.main.domain.GetTodayAsteroidListUseCase
 import com.udacity.asteroidradar.features.main.domain.GetWeekAsteroidListUseCase
@@ -30,9 +31,7 @@ import com.udacity.asteroidradar.features.main.domain.RefreshAsteroidListUseCase
  * Simple ViewModel factory that provides the MarsProperty and context to the ViewModel.
  */
 class MainViewModelFactory(
-    private val getAsteroidListUseCase: GetAsteroidListUseCase,
-    private val getTodayAsteroidListUseCase: GetTodayAsteroidListUseCase,
-    private val getWeekAsteroidListUseCase: GetWeekAsteroidListUseCase,
+    private val filteredAsteroidListUseCase: GetFilteredAsteroidListUseCase,
     private val refreshAsteroidListUseCase: RefreshAsteroidListUseCase,
     private val pictureOfDayUsecase: GetPictureOfDayUsecase
 ) : ViewModelProvider.Factory {
@@ -40,9 +39,7 @@ class MainViewModelFactory(
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
             return MainViewModel(
-                getAsteroidListUseCase,
-                getTodayAsteroidListUseCase,
-                getWeekAsteroidListUseCase,
+                filteredAsteroidListUseCase,
                 refreshAsteroidListUseCase,
                 pictureOfDayUsecase
             ) as T

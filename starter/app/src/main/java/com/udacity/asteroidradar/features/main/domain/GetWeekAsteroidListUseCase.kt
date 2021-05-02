@@ -1,6 +1,5 @@
 package com.udacity.asteroidradar.features.main.domain
 
-import com.udacity.asteroidradar.data.repository.AsteroidRepositoryImpl
 import com.udacity.asteroidradar.features.main.data.IAsteroidRepository
 import com.udacity.asteroidradar.features.main.domain.model.Asteroid
 import kotlinx.coroutines.Dispatchers
@@ -11,7 +10,7 @@ class GetWeekAsteroidListUseCase(
     private val asteroidRepository: IAsteroidRepository
 ) {
     suspend fun invoke(): List<Asteroid> = withContext(Dispatchers.IO) {
-        asteroidRepository.getWeekAsteroidList(
+        asteroidRepository.getAsteroidListByDateRange(
             LocalDate.now(),
             LocalDate.now().plusDays(7)
         )
